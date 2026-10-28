@@ -1,0 +1,214 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="100%" height="100%">
+  <defs>
+    <!-- Arrowhead Marker -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#1E3A8A" />
+    </marker>
+    <!-- Subtle drop shadow for stage containers if needed, but keeping flat academic design -->
+  </defs>
+
+  <!-- Clean Canvas Background -->
+  <rect width="1280" height="720" fill="#FFFFFF" />
+
+  <style>
+    .stage-title {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 14.5px;
+      font-weight: 700;
+      fill: #0F172A;
+    }
+    .box-rect {
+      fill: #FFFFFF;
+      stroke: #1E3A8A;
+      stroke-width: 1.5px;
+      rx: 5px;
+      ry: 5px;
+    }
+    .box-header-bg {
+      fill: #F1F5F9;
+      stroke: #1E3A8A;
+      stroke-width: 1.5px;
+    }
+    .model-rect {
+      fill: #F0F7FF;
+      stroke: #2563EB;
+      stroke-width: 1.5px;
+      rx: 4px;
+      ry: 4px;
+    }
+    .bullet-text {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 12.5px;
+      font-weight: 400;
+      fill: #334155;
+    }
+    .bullet-bold {
+      font-weight: 600;
+      fill: #0F172A;
+    }
+    .line {
+      stroke: #1E3A8A;
+      stroke-width: 1.6px;
+      fill: none;
+    }
+    .figure-caption {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 15.5px;
+      font-weight: 700;
+      fill: #0F172A;
+      text-anchor: middle;
+    }
+    .phase-badge {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      fill: #64748B;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+  </style>
+
+  <!-- ==================== TOP ROW: DATA PIPELINE (Y: 55 to 245) ==================== -->
+  <text x="50" y="42" class="phase-badge">Phase 1: Ingestion, Preprocessing, Feature Engineering &amp; Data Partitioning</text>
+
+  <!-- 1. Input Dataset -->
+  <g transform="translate(50, 55)">
+    <rect width="245" height="185" class="box-rect" />
+    <path d="M 0 5 Q 0 0 5 0 L 240 0 Q 245 0 245 5 L 245 36 L 0 36 Z" class="box-header-bg" />
+    <text x="15" y="24" class="stage-title">1. Input Dataset</text>
+    <text x="15" y="65" class="bullet-text">• <tspan class="bullet-bold">UCI Individual Household</tspan></text>
+    <text x="25" y="85" class="bullet-text">Electric Power Consumption</text>
+    <text x="15" y="120" class="bullet-text">• <tspan class="bullet-bold">Raw Telemetry:</tspan></text>
+    <text x="25" y="140" class="bullet-text">2,075,259 minute-level records</text>
+    <text x="25" y="160" class="bullet-text">(Active power in kW)</text>
+  </g>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 295 147 L 335 147" class="line" marker-end="url(#arrow)" />
+
+  <!-- 2. Data Preprocessing -->
+  <g transform="translate(335, 55)">
+    <rect width="250" height="185" class="box-rect" />
+    <path d="M 0 5 Q 0 0 5 0 L 245 0 Q 250 0 250 5 L 250 36 L 0 36 Z" class="box-header-bg" />
+    <text x="15" y="24" class="stage-title">2. Data Preprocessing</text>
+    <text x="15" y="65" class="bullet-text">• Parse date and time stamps</text>
+    <text x="15" y="95" class="bullet-text">• Convert minute readings to</text>
+    <text x="25" y="115" class="bullet-bold">hourly mean values</text>
+    <text x="15" y="145" class="bullet-text">• Handle missing hourly values</text>
+    <text x="25" y="165" class="bullet-text">using <tspan class="bullet-bold">linear interpolation</tspan></text>
+  </g>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 585 147 L 625 147" class="line" marker-end="url(#arrow)" />
+
+  <!-- 3. Feature Engineering -->
+  <g transform="translate(625, 55)">
+    <rect width="275" height="185" class="box-rect" />
+    <path d="M 0 5 Q 0 0 5 0 L 270 0 Q 275 0 275 5 L 275 36 L 0 36 Z" class="box-header-bg" />
+    <text x="15" y="24" class="stage-title">3. Feature Engineering</text>
+    <text x="15" y="65" class="bullet-text">• <tspan class="bullet-bold">Autoregressive:</tspan> lag_1, lag_2, lag_3</text>
+    <text x="15" y="90" class="bullet-text">• <tspan class="bullet-bold">Seasonal Lag:</tspan> lag_24 (same hr prev day)</text>
+    <text x="15" y="115" class="bullet-text">• <tspan class="bullet-bold">Moving Averages:</tspan> rolling_mean_3h,</text>
+    <text x="25" y="133" class="bullet-text">rolling_mean_24h</text>
+    <text x="15" y="156" class="bullet-text">• <tspan class="bullet-bold">Calendar:</tspan> hour, day_of_week</text>
+    <text x="15" y="176" class="bullet-text">• <tspan class="bullet-bold">Target:</tspan> next-hour mean kW</text>
+  </g>
+
+  <!-- Arrow 3 -> 4 -->
+  <path d="M 900 147 L 940 147" class="line" marker-end="url(#arrow)" />
+
+  <!-- 4. Chronological Data Split -->
+  <g transform="translate(940, 55)">
+    <rect width="290" height="185" class="box-rect" />
+    <path d="M 0 5 Q 0 0 5 0 L 285 0 Q 290 0 290 5 L 290 36 L 0 36 Z" class="box-header-bg" />
+    <text x="15" y="24" class="stage-title">4. Chronological Data Split</text>
+    <text x="15" y="65" class="bullet-text">• <tspan class="bullet-bold">Training Set:</tspan> 70% (24,195 samples)</text>
+    <text x="15" y="95" class="bullet-text">• <tspan class="bullet-bold">Validation Set:</tspan> 15% (5,185 samples)</text>
+    <text x="15" y="125" class="bullet-text">• <tspan class="bullet-bold">Testing Set:</tspan> 15% (5,185 samples)</text>
+    <text x="15" y="155" class="bullet-text">• <tspan class="bullet-bold">Partition Rule:</tspan> Strict temporal order</text>
+    <text x="25" y="173" class="bullet-text">(No shuffling / zero future leakage)</text>
+  </g>
+
+  <!-- Connector from Box 4 down to Row 2 Models -->
+  <path d="M 1085 240 L 1085 275 L 180 275 L 180 325" class="line" />
+
+  <!-- ==================== BOTTOM ROW: MODELS, EVALUATION & OUTPUT (Y: 325 to 585) ==================== -->
+  <text x="50" y="308" class="phase-badge">Phase 2: Multi-Model Training, Comparative Evaluation &amp; Artifact Storage</text>
+
+  <!-- 5. Prediction Models (Container) -->
+  <g transform="translate(50, 325)">
+    <rect width="320" height="260" class="box-rect" stroke-dasharray="4 4" fill="#F8FAFC" />
+    <text x="15" y="24" class="stage-title">5. Prediction Models (Parallel)</text>
+  </g>
+
+  <!-- Feed line branching to 3 models -->
+  <path d="M 180 325 L 180 345" class="line" />
+  <path d="M 65 375 L 80 375" class="line" marker-end="url(#arrow)" />
+  <path d="M 65 455 L 80 455" class="line" marker-end="url(#arrow)" />
+  <path d="M 65 535 L 80 535" class="line" marker-end="url(#arrow)" />
+  <path d="M 65 375 L 65 535" class="line" />
+  <path d="M 180 345 L 65 345 L 65 375" class="line" />
+
+  <!-- Model 5.1: Persistence Baseline -->
+  <g transform="translate(80, 350)">
+    <rect width="270" height="58" class="model-rect" />
+    <text x="15" y="24" class="bullet-bold">Persistence Baseline</text>
+    <text x="15" y="44" class="bullet-text">Naïve reference: ŷ(t+1) = y(t) [lag_1]</text>
+  </g>
+
+  <!-- Model 5.2: Linear Regression -->
+  <g transform="translate(80, 428)">
+    <rect width="270" height="58" class="model-rect" />
+    <text x="15" y="24" class="bullet-bold">Linear Regression</text>
+    <text x="15" y="44" class="bullet-text">Ordinary Least Squares (all 8 features)</text>
+  </g>
+
+  <!-- Model 5.3: Random Forest Tuned -->
+  <g transform="translate(80, 506)">
+    <rect width="270" height="62" class="model-rect" />
+    <text x="15" y="24" class="bullet-bold">Random Forest</text>
+    <text x="15" y="42" class="bullet-bold" fill="#1D4ED8">(Hyperparameter Tuned)</text>
+    <text x="15" y="56" class="bullet-text">250 trees, max_depth=10, min_samples=2</text>
+  </g>
+
+  <!-- Connectors from 3 Models to Model Evaluation -->
+  <path d="M 350 379 L 430 379 L 430 455 L 450 455" class="line" marker-end="url(#arrow)" />
+  <path d="M 350 457 L 450 457" class="line" marker-end="url(#arrow)" />
+  <path d="M 350 537 L 430 537 L 430 459 L 450 459" class="line" marker-end="url(#arrow)" />
+
+  <!-- 6. Model Evaluation -->
+  <g transform="translate(450, 325)">
+    <rect width="330" height="260" class="box-rect" />
+    <path d="M 0 5 Q 0 0 5 0 L 325 0 Q 330 0 330 5 L 330 36 L 0 36 Z" class="box-header-bg" />
+    <text x="15" y="24" class="stage-title">6. Model Evaluation</text>
+    <text x="15" y="65" class="bullet-text">• <tspan class="bullet-bold">MAE:</tspan> Mean Absolute Error (kW)</text>
+    <text x="25" y="83" class="bullet-text">(Primary model selection metric)</text>
+    <text x="15" y="112" class="bullet-text">• <tspan class="bullet-bold">RMSE:</tspan> Root Mean Squared Error (kW)</text>
+    <text x="25" y="130" class="bullet-text">(Measures large transient load errors)</text>
+    <text x="15" y="159" class="bullet-text">• <tspan class="bullet-bold">R²:</tspan> Coefficient of Determination</text>
+    <text x="25" y="177" class="bullet-text">(Variance explained vs. mean baseline)</text>
+    <text x="15" y="206" class="bullet-text">• <tspan class="bullet-bold">MAPE:</tspan> Mean Absolute Percentage Error</text>
+    <text x="25" y="224" class="bullet-text">(With ε = 10⁻⁴ kW zero-division floor)</text>
+  </g>
+
+  <!-- Arrow 6 -> 7 -->
+  <path d="M 780 455 L 850 455" class="line" marker-end="url(#arrow)" />
+
+  <!-- 7. Output and Saved Artifacts -->
+  <g transform="translate(850, 325)">
+    <rect width="380" height="260" class="box-rect" />
+    <path d="M 0 5 Q 0 0 5 0 L 375 0 Q 380 0 380 5 L 380 36 L 0 36 Z" class="box-header-bg" />
+    <text x="15" y="24" class="stage-title">7. Output and Saved Artifacts</text>
+    <text x="15" y="65" class="bullet-text">• <tspan class="bullet-bold">Model Comparison Results:</tspan></text>
+    <text x="25" y="85" class="bullet-text">reports/metrics/model_comparison.csv</text>
+    <text x="15" y="115" class="bullet-text">• <tspan class="bullet-bold">Actual vs. Predicted Values:</tspan></text>
+    <text x="25" y="135" class="bullet-text">reports/metrics/model_comparison_predictions.csv</text>
+    <text x="15" y="165" class="bullet-text">• <tspan class="bullet-bold">Evaluation Charts:</tspan></text>
+    <text x="25" y="185" class="bullet-text">reports/figures/*.png (time series &amp; residuals)</text>
+    <text x="15" y="215" class="bullet-text">• <tspan class="bullet-bold">Trained Random Forest Model:</tspan></text>
+    <text x="25" y="235" class="bullet-text">models/random_forest_tuned.joblib (23.8 MB)</text>
+  </g>
+
+  <!-- Figure Title at Bottom -->
+  <text x="640" y="670" class="figure-caption">Figure 3.1: System Architecture of the Proposed Energy Consumption Prediction System</text>
+</svg>

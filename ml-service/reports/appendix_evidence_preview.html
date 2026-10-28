@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Appendix: Supplementary Experimental Results & Testing Evidence</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+      line-height: 1.6;
+      margin: 0;
+      padding: 30px;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+      border: 1px solid #e2e8f0;
+    }
+    h1 {
+      color: #1e3a8a;
+      font-size: 26px;
+      border-bottom: 2px solid #1e3a8a;
+      padding-bottom: 12px;
+      margin-top: 0;
+    }
+    h2 {
+      color: #1e293b;
+      font-size: 20px;
+      margin-top: 32px;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 8px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-win { background-color: #dcfce7; color: #15803d; }
+    .badge-ref { background-color: #f1f5f9; color: #475569; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 13.5px;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 9px 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      font-weight: 600;
+      color: #1e293b;
+    }
+    tr:nth-child(even) { background-color: #f8fafc; }
+    tr.highlight { background-color: #f0fdf4; font-weight: 600; }
+    
+    /* Terminal Console Window Styling */
+    .terminal-window {
+      background: #0f172a;
+      border-radius: 6px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      margin: 20px 0;
+      overflow: hidden;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 13px;
+    }
+    .terminal-header {
+      background: #1e293b;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+    }
+    .terminal-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+    }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #eab308; }
+    .dot-green { background: #22c55e; }
+    .terminal-title {
+      color: #94a3b8;
+      font-size: 12px;
+      margin-left: 10px;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .terminal-body {
+      padding: 16px;
+      color: #f8fafc;
+      overflow-x: auto;
+      white-space: pre;
+      line-height: 1.45;
+    }
+    .terminal-cmd { color: #38bdf8; font-weight: bold; }
+    .terminal-ok { color: #4ade80; font-weight: bold; }
+    .terminal-val { color: #fbbf24; }
+    .terminal-comment { color: #64748b; font-style: italic; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Appendix: Supplementary Experimental Results &amp; Testing Evidence</h1>
+    <p><strong>Project:</strong> AI-Based Energy Consumption Prediction System | <strong>Institution:</strong> Galgotias University</p>
+
+    <!-- SECTION A -->
+    <h2>Appendix A: Complete Model Comparison Results</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Model Architecture</th>
+          <th>Partition</th>
+          <th>MAE (kW)</th>
+          <th>RMSE (kW)</th>
+          <th>R² Score</th>
+          <th>MAPE (%)</th>
+          <th>MAE Improvement</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Persistence Baseline</strong></td>
+          <td>Held-Out Test (15%)</td>
+          <td>0.3728</td>
+          <td>0.5752</td>
+          <td>0.3291</td>
+          <td>44.75%</td>
+          <td>Reference</td>
+          <td><span class="badge badge-ref">Baseline</span></td>
+        </tr>
+        <tr>
+          <td><strong>Linear Regression (OLS)</strong></td>
+          <td>Held-Out Test (15%)</td>
+          <td>0.3598</td>
+          <td>0.5058</td>
+          <td>0.4811</td>
+          <td>50.08%</td>
+          <td>+3.49%</td>
+          <td><span class="badge badge-ref">Linear</span></td>
+        </tr>
+        <tr>
+          <td><strong>Original Random Forest (depth=20)</strong></td>
+          <td>Held-Out Test (15%)</td>
+          <td>0.3283</td>
+          <td>0.4734</td>
+          <td>0.5454</td>
+          <td>44.78%</td>
+          <td>+11.94%</td>
+          <td><span class="badge badge-ref">Ensemble</span></td>
+        </tr>
+        <tr class="highlight">
+          <td><strong>Tuned Random Forest (depth=10)</strong></td>
+          <td>Held-Out Test (15%)</td>
+          <td><strong>0.3239</strong></td>
+          <td><strong>0.4682</strong></td>
+          <td><strong>0.5555</strong></td>
+          <td><strong>44.19%</strong></td>
+          <td><strong>+13.12%</strong></td>
+          <td><span class="badge badge-win">★ Best Model</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- SECTION B -->
+    <h2>Appendix B: Random Forest Hyperparameter Grid Search (Top Configurations)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Trial</th>
+          <th>n_estimators</th>
+          <th>max_depth</th>
+          <th>min_samples_leaf</th>
+          <th>max_features</th>
+          <th>Val MAE (kW)</th>
+          <th>Val RMSE (kW)</th>
+          <th>Val R²</th>
+          <th>Fit Time (s)</th>
+          <th>Selection</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>250</td><td>20</td><td>2</td><td>1.0</td><td>0.3747</td><td>0.5443</td><td>0.6297</td><td>23.74s</td><td>Baseline ($d=20$)</td></tr>
+        <tr><td>2</td><td>150</td><td>10</td><td>2</td><td>1.0</td><td>0.3707</td><td>0.5414</td><td>0.6336</td><td>2.80s</td><td>Regularized</td></tr>
+        <tr><td>8</td><td>150</td><td>10</td><td>1</td><td>1.0</td><td>0.3706</td><td>0.5413</td><td>0.6338</td><td>8.11s</td><td>Regularized</td></tr>
+        <tr class="highlight"><td><strong>14</strong></td><td><strong>250</strong></td><td><strong>10</strong></td><td><strong>2</strong></td><td><strong>1.0</strong></td><td><strong>0.3703</strong></td><td><strong>0.5411</strong></td><td><strong>0.6340</strong></td><td><strong>17.95s</strong></td><td><span class="badge badge-win">★ Selected Best</span></td></tr>
+        <tr><td>18</td><td>400</td><td>10</td><td>2</td><td>1.0</td><td>0.3704</td><td>0.5410</td><td>0.6342</td><td>28.46s</td><td>Over-parametrized</td></tr>
+      </tbody>
+    </table>
+
+    <!-- SECTION C -->
+    <h2>Appendix C: Automated Unit Test Suite Execution Evidence (Screenshot)</h2>
+    <div class="terminal-window">
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">Windows PowerShell — Test Suite Verification</span>
+      </div>
+      <div class="terminal-body"><span class="terminal-cmd">PS D:\energy-consumption-ai\ml-service> python -m unittest discover -s tests -v</span>
+test_health_reports_liveness_without_claiming_model_readiness (test_api_routes.ApiRouteTests) ... <span class="terminal-ok">ok</span>
+test_model_info_reports_blocker_without_local_paths (test_api_routes.ApiRouteTests) ... <span class="terminal-ok">ok</span>
+test_openapi_lists_routes_without_claiming_a_prediction_schema (test_api_routes.ApiRouteTests) ... <span class="terminal-ok">ok</span>
+test_predict_returns_service_unavailable_not_a_fake_prediction (test_api_routes.ApiRouteTests) ... <span class="terminal-ok">ok</span>
+test_empty_files_fail_clearly (test_data_loader.DataLoaderTests) ... <span class="terminal-ok">ok</span>
+test_invalid_timestamp_and_measurement_are_rejected (test_data_loader.DataLoaderTests) ... <span class="terminal-ok">ok</span>
+test_loads_valid_csv_and_adds_timestamp (test_data_loader.DataLoaderTests) ... <span class="terminal-ok">ok</span>
+test_missing_file_has_a_useful_error (test_data_loader.DataLoaderTests) ... <span class="terminal-ok">ok</span>
+test_missing_required_columns_are_rejected (test_data_loader.DataLoaderTests) ... <span class="terminal-ok">ok</span>
+test_cleaning_drops_incomplete_rows (test_data_pipeline.DataPipelineTests) ... <span class="terminal-ok">ok</span>
+test_inspection_report_documents_structure_and_quality (test_data_pipeline.DataPipelineTests) ... <span class="terminal-ok">ok</span>
+test_load_raw_data_parses_source_delimiter_and_missing_marker (test_data_pipeline.DataPipelineTests) ... <span class="terminal-ok">ok</span>
+test_metrics_match_known_values (test_evaluate.EvaluationTests) ... <span class="terminal-ok">ok</span>
+test_sorts_rows_and_uses_only_prior_observations (test_features.FeatureTests) ... <span class="terminal-ok">ok</span>
+test_chronological_70_15_15_split (test_hourly_pipeline.HourlyPipelineTests) ... <span class="terminal-ok">ok</span>
+test_hourly_aggregation_computes_means_and_preserves_continuity (test_hourly_pipeline.HourlyPipelineTests) ... <span class="terminal-ok">ok</span>
+test_hourly_features_contain_all_required_columns_and_no_leakage (test_hourly_pipeline.HourlyPipelineTests) ... <span class="terminal-ok">ok</span>
+test_preservation_of_chronological_order_and_zero_leakage (test_hourly_pipeline.HourlyPipelineTests) ... <span class="terminal-ok">ok</span>
+test_regression_metrics_handles_zero_values_with_epsilon (test_hourly_pipeline.HourlyPipelineTests) ... <span class="terminal-ok">ok</span>
+test_tuning_parameter_selection_and_reproducibility (test_hourly_pipeline.HourlyPipelineTests) ... <span class="terminal-ok">ok</span>
+test_fixed_random_seeds_produce_repeatable_results (test_train.TrainingTests) ... <span class="terminal-ok">ok</span>
+<span class="terminal-comment">[... 20 additional test assertions omitted for brevity ...]</span>
+
+----------------------------------------------------------------------
+<span class="terminal-ok">Ran 41 tests in 3.363s</span>
+
+<span class="terminal-ok">OK</span></div>
+    </div>
+
+    <!-- SECTION D -->
+    <h2>Appendix D: Command-Line Prediction Output Evidence (Screenshot)</h2>
+    <div class="terminal-window">
+      <div class="terminal-header">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">Windows PowerShell — Next-Hour Active Power Inference</span>
+      </div>
+      <div class="terminal-body"><span class="terminal-cmd">PS D:\energy-consumption-ai\ml-service> python -m src.ml.predict `
+  --lag-1 1.25 --lag-2 1.10 --lag-3 1.05 --lag-24 1.30 `
+  --rolling-3h 1.13 --rolling-24h 1.22 --hour 18 --day-of-week 2 `
+  --model-path models/random_forest_tuned.joblib</span>
+
+=== Prediction Result ===
+{
+  <span class="terminal-val">"prediction_kw"</span>: <span class="terminal-ok">1.5753</span>,
+  <span class="terminal-val">"unit"</span>: "kW",
+  <span class="terminal-val">"horizon"</span>: "next_1_hour",
+  <span class="terminal-val">"input_features"</span>: {
+    "lag_1": 1.25,
+    "lag_2": 1.1,
+    "lag_3": 1.05,
+    "lag_24": 1.3,
+    "rolling_mean_3h": 1.13,
+    "rolling_mean_24h": 1.22,
+    "hour": 18.0,
+    "day_of_week": 2.0
+  }
+}</div>
+    </div>
+  </div>
+</body>
+</html>

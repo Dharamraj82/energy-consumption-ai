@@ -1,0 +1,193 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="100%">
+  <defs>
+    <!-- Dark-blue arrowhead marker -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#1E3A8A" />
+    </marker>
+  </defs>
+
+  <!-- Clean Background -->
+  <rect width="1200" height="680" fill="#FFFFFF" />
+
+  <style>
+    .box {
+      fill: #F8FAFC;
+      stroke: #1E3A8A;
+      stroke-width: 1.5px;
+      rx: 4px;
+      ry: 4px;
+    }
+    .box-start-end {
+      fill: #EEF2F6;
+      stroke: #1E3A8A;
+      stroke-width: 1.5px;
+      rx: 4px;
+      ry: 4px;
+    }
+    .text-title {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 13.5px;
+      font-weight: 600;
+      fill: #0F172A;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+    .text-desc {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      fill: #334155;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+    .line {
+      stroke: #1E3A8A;
+      stroke-width: 1.5px;
+      fill: none;
+    }
+    .caption {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      fill: #0F172A;
+      text-anchor: middle;
+    }
+    .row-tag {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      fill: #64748B;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  </style>
+
+  <!-- ROW 1 (Y: 60 to 170) -->
+  <text x="50" y="48" class="row-tag">Phase 1: Ingestion &amp; Hourly Aggregation</text>
+
+  <!-- Box 1: Start -->
+  <g transform="translate(50, 65)">
+    <rect width="120" height="90" class="box-start-end" />
+    <text x="60" y="45" class="text-title">Start</text>
+  </g>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 170 110 L 220 110" class="line" marker-end="url(#arrow)" />
+
+  <!-- Box 2: Load UCI Dataset -->
+  <g transform="translate(220, 65)">
+    <rect width="250" height="90" class="box" />
+    <text x="125" y="36" class="text-title">Load UCI Household Electric</text>
+    <text x="125" y="56" class="text-title">Power Consumption Dataset</text>
+  </g>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 470 110 L 520 110" class="line" marker-end="url(#arrow)" />
+
+  <!-- Box 3: Parse & Clean Data -->
+  <g transform="translate(520, 65)">
+    <rect width="270" height="90" class="box" />
+    <text x="135" y="36" class="text-title">Parse Date and Time</text>
+    <text x="135" y="56" class="text-title">and Clean Data</text>
+  </g>
+
+  <!-- Arrow 3 -> 4 -->
+  <path d="M 790 110 L 840 110" class="line" marker-end="url(#arrow)" />
+
+  <!-- Box 4: Aggregate into Hourly Mean Values -->
+  <g transform="translate(840, 65)">
+    <rect width="310" height="90" class="box" />
+    <text x="155" y="36" class="text-title">Aggregate Minute-Level Measurements</text>
+    <text x="155" y="56" class="text-title">into Hourly Mean Values</text>
+  </g>
+
+  <!-- Connector from Row 1 to Row 2: (Box 4 down and back to Box 5) -->
+  <path d="M 995 155 L 995 195 L 110 195 L 110 235" class="line" marker-end="url(#arrow)" />
+
+  <!-- ROW 2 (Y: 235 to 345) -->
+  <text x="50" y="218" class="row-tag">Phase 2: Preparation, Feature Generation &amp; Baseline Models</text>
+
+  <!-- Box 5: Handle Missing Hourly Values -->
+  <g transform="translate(50, 235)">
+    <rect width="250" height="90" class="box" />
+    <text x="125" y="36" class="text-title">Handle Missing Hourly Values</text>
+    <text x="125" y="56" class="text-title">Using Linear Interpolation</text>
+  </g>
+
+  <!-- Arrow 5 -> 6 -->
+  <path d="M 300 280 L 340 280" class="line" marker-end="url(#arrow)" />
+
+  <!-- Box 6: Create Eight Input Features & Target -->
+  <g transform="translate(340, 235)">
+    <rect width="260" height="90" class="box" />
+    <text x="130" y="36" class="text-title">Create Eight Input Features</text>
+    <text x="130" y="56" class="text-title">and Next-Hour Prediction Target</text>
+  </g>
+
+  <!-- Arrow 6 -> 7 -->
+  <path d="M 600 280 L 640 280" class="line" marker-end="url(#arrow)" />
+
+  <!-- Box 7: Chronological Split -->
+  <g transform="translate(640, 235)">
+    <rect width="250" height="90" class="box" />
+    <text x="125" y="32" class="text-title">Split Data Chronologically:</text>
+    <text x="125" y="52" class="text-desc">70% Training | 15% Validation</text>
+    <text x="125" y="68" class="text-desc">15% Testing (No Shuffling)</text>
+  </g>
+
+  <!-- Arrow 7 -> 8 -->
+  <path d="M 890 280 L 930 280" class="line" marker-end="url(#arrow)" />
+
+  <!-- Box 8: Train Baselines -->
+  <g transform="translate(930, 235)">
+    <rect width="220" height="90" class="box" />
+    <text x="110" y="36" class="text-title">Train Persistence and</text>
+    <text x="110" y="56" class="text-title">Linear Regression Baselines</text>
+  </g>
+
+  <!-- Connector from Row 2 to Row 3: (Box 8 down and back to Box 9) -->
+  <path d="M 1040 325 L 1040 365 L 110 365 L 110 405" class="line" marker-end="url(#arrow)" />
+
+  <!-- ROW 3 (Y: 405 to 515) -->
+  <text x="50" y="388" class="row-tag">Phase 3: Hyperparameter Tuning, Evaluation &amp; Artifact Storage</text>
+
+  <!-- Box 9: Tune Random Forest -->
+  <g transform="translate(50, 405)">
+    <rect width="260" height="90" class="box" />
+    <text x="130" y="36" class="text-title">Train and Tune Random Forest</text>
+    <text x="130" y="56" class="text-title">Using Validation MAE</text>
+  </g>
+
+  <!-- Arrow 9 -> 10 -->
+  <path d="M 310 450 L 350 450" class="line" marker-end="url(#arrow)" />
+
+  <!-- Box 10: Test Set Evaluation -->
+  <g transform="translate(350, 405)">
+    <rect width="280" height="90" class="box" />
+    <text x="140" y="36" class="text-title">Evaluate Models on the Test Set</text>
+    <text x="140" y="56" class="text-title">Using MAE, RMSE, R&#178;, and MAPE</text>
+  </g>
+
+  <!-- Arrow 10 -> 11 -->
+  <path d="M 630 450 L 670 450" class="line" marker-end="url(#arrow)" />
+
+  <!-- Box 11: Save Artifacts -->
+  <g transform="translate(670, 405)">
+    <rect width="320" height="90" class="box" />
+    <text x="160" y="32" class="text-title">Save Model Metrics, Prediction Results,</text>
+    <text x="160" y="52" class="text-title">Evaluation Charts, and</text>
+    <text x="160" y="68" class="text-title">the Trained Random Forest Model</text>
+  </g>
+
+  <!-- Arrow 11 -> 12 -->
+  <path d="M 990 450 L 1030 450" class="line" marker-end="url(#arrow)" />
+
+  <!-- Box 12: End -->
+  <g transform="translate(1030, 405)">
+    <rect width="120" height="90" class="box-start-end" />
+    <text x="60" y="45" class="text-title">End</text>
+  </g>
+
+  <!-- Figure Caption -->
+  <text x="600" y="600" class="caption">Figure 3.2: Data Processing and Model Development Workflow</text>
+</svg>

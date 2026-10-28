@@ -167,6 +167,6 @@ QUALITY CHECK -> CLEAN DATASET -> DATA QUALITY REPORT
 - [x] Raw dataset preserved — Inspection, validation, and cleaning read the raw file only
 - [x] Before/after report created — See before/after statistics below
 - [x] Data-quality report created — reports/data_quality_report.md
-- [X] Code committed to Git — Not verified by the data pipeline
+- [ ] Code committed to Git — Not verified by the data pipeline
 
 The Git commit checkbox is intentionally unchecked: this report cannot verify that the current changes have been committed.

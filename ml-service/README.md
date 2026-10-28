@@ -1,161 +1,163 @@
-# ML Service: Run the Data Pipeline
+<p align="center">
+  <img src="./reports/figures/banner.svg" alt="AI-Based Energy Consumption Prediction System" width="100%" />
+</p>
 
-This guide takes you from the raw dataset to the cleaned dataset. Run the
-commands from a terminal, in the order shown.
+# ML Service: AI-Based Energy Consumption Prediction System
 
-## 1. Open this folder
+A lightweight, reproducible machine learning pipeline that forecasts a household's electricity consumption for the **next 1 hour** (in kilowatts, kW) using 4 years of real smart-meter telemetry.
 
-In the terminal, change to the `ml-service` folder:
+---
 
-```bash
-cd ml-service
+## 📌 At a Glance
+
+* **Goal:** Predict next hour's mean active power (`Global_active_power`, kW).
+* **Dataset:** UCI Individual Household Electric Power Consumption (2,075,259 minute-level rows aggregated to 34,589 hourly steps).
+* **Features:** 8 leak-free features derived strictly from past data (lags, rolling averages, calendar hour/day).
+* **Evaluation Split:** Strict chronological split — **70% Train** (24,195), **15% Validation** (5,185), **15% Held-Out Test** (5,185).
+* **Winning Model:** **Tuned Random Forest** (250 trees, max_depth=10) with **0.3239 kW Test MAE** (a **13.12% error reduction** over baseline) and **88% smaller file size** (23.8 MB vs 201.7 MB).
+
+---
+
+## 🖼️ Quick Image & Diagram Links
+
+Click any link to view the high-resolution vector or chart:
+
+* 🏛️ **[System Architecture (Figure 3.1)](./reports/figures/figure_3_1_system_architecture.svg)** — Clean 16:9 diagram of the 7-stage ML pipeline.
+* 🔄 **[Workflow Diagram (Figure 3.2)](./reports/figures/figure_3_2_workflow.svg)** — 12-step data processing and model tuning sequence.
+* 📊 **[Model MAE Comparison](./reports/figures/model_mae_comparison_all_models.png)** — Benchmark bar chart across all 4 models.
+* 📈 **[Actual vs. Predicted Tracking](./reports/figures/model_comparison_actual_vs_predicted.png)** — 1-week time-series tracking & 48h zoom.
+* 🎛️ **[Hyperparameter Tuning Impact](./reports/figures/model_tuning_comparison.png)** — Original vs. Tuned validation improvement.
+* 🌟 **[Feature Importance Ranking](./reports/figures/feature_importance.png)** — MDI Gini importance of all 8 features.
+* 📉 **[Error & Residual Distribution](./reports/figures/error_summary.png)** — Prediction error histogram and KDE.
+
+---
+
+## 🏗️ System Architecture & Workflow
+
+### 1. System Architecture
+[![System Architecture](./reports/figures/figure_3_1_system_architecture.svg)](./reports/figures/figure_3_1_system_architecture.svg)
+
+### 2. End-to-End Development Workflow
+[![Workflow Diagram](./reports/figures/figure_3_2_workflow.svg)](./reports/figures/figure_3_2_workflow.svg)
+
+---
+
+## ⚡ Quick Start: Run Everything
+
+### 1. Install Dependencies
+```powershell
+pip install -r requirements.txt
 ```
 
-All commands below assume your terminal is in this folder.
-
-## 2. Install the required packages
-
-```bash
-python -m pip install -r requirements.txt
-```
-
-This installs the packages needed for the pipeline and notebooks.
-
-## 3. Inspect the raw dataset first
-
-```bash
-python -m src.data.inspect_data
-```
-
-This checks the raw file and writes the findings to
-`reports/data_quality_report.md`. It does not change the raw data.
-
-For the sample currently included, the report shows:
-
-- 10 rows and 9 columns
-- 750 bytes
-- 7 missing cells in 1 row
-- No duplicate rows
-- No invalid timestamps
-- One-minute intervals in the sample
-
-The included file is a 10-row sample of the full UCI dataset.
-
-## 4. Load the data
-
-```bash
-python -m src.data.load_data
-```
-
-This reads `data/raw/original_dataset.csv` into a pandas DataFrame. The source
-file is semicolon-delimited and uses `?` for missing measurements. The loader
-converts `?` to pandas missing values and prints a summary.
-
-Example output:
-
-```text
-Loaded 10 rows and 9 columns from ...\data\raw\original_dataset.csv
-
-Missing values by column:
-Date                     0
-Time                     0
-Global_active_power      1
-Global_reactive_power    1
-Voltage                  1
-Global_intensity         1
-Sub_metering_1           1
-Sub_metering_2           1
-Sub_metering_3           1
-```
-
-This step only displays the loaded data summary; it does not create another
-file.
-
-## 5. Validate and save the intermediate data
-
-```bash
-python -m src.data.validate_data
-```
-
-Validation checks the column names, date and time formats, and numeric
-measurements. It keeps rows with missing measurements so they can be reviewed
-before cleaning.
-
-Files written:
-
-- `data/interim/validated_dataset.csv` — validated data, including rows with
-  missing values
-- `reports/data_quality_report.md` — refreshed inspection report with
-  validation status
-
-Example output:
-
-```text
-Validated 10 rows: ...\data\interim\validated_dataset.csv
-Data quality report: ...\reports\data_quality_report.md
-```
-
-## 6. Clean and save the processed data
-
-```bash
-python -m src.data.clean_data
-```
-
-Cleaning removes rows that contain one or more missing values.
-It also standardizes the column names: trims whitespace, converts to lowercase,
-replaces punctuation or spaces with underscores, and removes repeated or
-edge underscores. For example, `Global_active_power` becomes
-`global_active_power`. If two names would become identical, cleaning stops
-with an error rather than writing ambiguous output.
-
-File written:
-
-- `data/processed/cleaned_dataset.csv` — data ready for the next analysis step
-- `reports/data_quality_report.md` — complete report including inspection
-  findings, outlier observations, cleaning decisions, before/after statistics,
-  final output location, architecture, and milestone checklist
-
-Example output:
-
-```text
-Saved 9 complete rows to ...\data\processed\cleaned_dataset.csv (1 rows removed).
-```
-
-For the current sample, cleaning removes 1 incomplete row and keeps 9 rows.
-The processed file uses lowercase snake_case headers. The raw and validated
-files remain unchanged by this step. This step refreshes the report with the
-final cleaning results and before/after statistics.
-
-## 7. Run the tests
-
-```bash
+### 2. Run Automated Tests (41 Tests Passed)
+```powershell
 python -m unittest discover -s tests -v
 ```
-
-The tests check loading, validation, cleaning, and the inspection report. A
-successful run ends with `OK`.
-
-## Output files
-
-After running the pipeline, the data files are:
-
+**Output:**
 ```text
-data/
-├── raw/
-│   ├── original_dataset.csv
-│   └── README.md
-├── interim/
-│   └── validated_dataset.csv
-└── processed/
-    └── cleaned_dataset.csv
+Ran 41 tests in 3.363s
+
+OK
 ```
 
-The raw sample has 10 rows, the validated file keeps all 10 rows, and the
-cleaned file has 9 complete rows. If you replace the sample with the full UCI
-dataset, row counts and output sizes will be different.
+### 3. Make an Instant Prediction via CLI
+Predict next-hour power consumption using past 8 features:
+```powershell
+python -m src.ml.predict --lag-1 1.25 --lag-2 1.10 --lag-3 1.05 --lag-24 1.30 --rolling-3h 1.13 --rolling-24h 1.22 --hour 18 --day-of-week 2 --model-path models/random_forest_tuned.joblib
+```
+**Output:**
+```json
+=== Prediction Result ===
+{
+  "prediction_kw": 1.5753,
+  "unit": "kW",
+  "horizon": "next_1_hour",
+  "input_features": {
+    "lag_1": 1.25,
+    "lag_2": 1.1,
+    "lag_3": 1.05,
+    "lag_24": 1.3,
+    "rolling_mean_3h": 1.13,
+    "rolling_mean_24h": 1.22,
+    "hour": 18.0,
+    "day_of_week": 2.0
+  }
+}
+```
 
-## Notebooks
+### 4. Train & Benchmark All Models
+```powershell
+python scripts/train_model.py
+```
 
-The notebooks in `notebooks/` provide a guided introduction to understanding,
-loading, and cleaning the data. Start Jupyter from the `ml-service` folder so
-the notebook imports can find `src`.
+### 5. Run Hyperparameter Tuning
+```powershell
+python scripts/tune_model.py
+```
+
+---
+
+## 📊 Experimental Results
+
+Evaluated across the exact same 5,185 held-out test hours:
+
+| Model | Test MAE (kW) | Test RMSE (kW) | Test $R^2$ | Test MAPE (%) | Error Reduction vs. Baseline | Model File Size |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Persistence Baseline** | 0.3728 | 0.5752 | 0.3291 | 44.75% | Baseline Ref | *None* |
+| **Linear Regression** | 0.3598 | 0.5058 | 0.4811 | 50.08% | +3.49% | < 0.1 MB |
+| **Original Random Forest** | 0.3283 | 0.4734 | 0.5454 | 44.78% | +11.94% | 201.7 MB |
+| **Tuned Random Forest** | **0.3239** | **0.4682** | **0.5555** | **44.19%** | **+13.12%** | **23.8 MB (-88%)** |
+
+> **Key Finding:** Restricting tree depth from 20 to 10 acts as regularization against sudden household load spikes. It improved test accuracy while shrinking the model file from **201.7 MB to 23.8 MB**, making it ideal for real-world smart meter edge devices.
+
+---
+
+## 📈 Visual Results & Output Charts
+
+### 1. Test MAE Comparison Across All Models
+[![Model MAE Comparison](./reports/figures/model_mae_comparison_all_models.png)](./reports/figures/model_mae_comparison_all_models.png)
+
+### 2. Actual vs. Predicted Trajectory (1-Week Tracking & 48h Zoom)
+[![Actual vs Predicted](./reports/figures/model_comparison_actual_vs_predicted.png)](./reports/figures/model_comparison_actual_vs_predicted.png)
+
+### 3. Hyperparameter Tuning (Validation Improvement)
+[![Tuning Comparison](./reports/figures/model_tuning_comparison.png)](./reports/figures/model_tuning_comparison.png)
+
+### 4. Feature Importance (What Influences Demand Most)
+`lag_1` (current power) is the strongest predictor (~61%), followed by calendar `hour` and `lag_24` (same hour yesterday).
+[![Feature Importance](./reports/figures/feature_importance.png)](./reports/figures/feature_importance.png)
+
+### 5. Error & Residuals Distribution
+Errors are closely centered around zero with minimal bias:
+[![Error Summary](./reports/figures/error_summary.png)](./reports/figures/error_summary.png)
+
+---
+
+## 📁 Repository Structure
+
+```text
+ml-service/
+├── data/
+│   ├── raw/household_power_consumption.txt    # Raw 2M+ readings (133 MB)
+│   └── processed/hourly_consumption.csv       # Cleaned hourly series (34,589 rows)
+├── models/
+│   ├── random_forest_tuned.joblib             # Best model (23.8 MB)
+│   ├── random_forest.joblib                   # Original model (201.7 MB)
+│   └── random_forest_tuned_metadata.json      # Complete parameters and scores
+├── reports/
+│   ├── figures/                               # All generated 200 DPI charts and SVGs
+│   ├── metrics/                               # Metrics CSVs and prediction outputs
+│   └── final_experiment_summary.md            # Detailed academic summary
+├── scripts/
+│   ├── train_model.py                         # Runs baseline benchmark
+│   └── tune_model.py                          # Runs 20-configuration grid search
+├── src/
+│   └── ml/
+│       ├── features.py                        # 8 leak-free features
+│       ├── predict.py                         # CLI inference tool
+│       ├── preprocessing.py                   # Chronological splitting
+│       ├── train.py                           # Benchmark training logic
+│       └── tune.py                            # Tuning search logic
+├── tests/                                     # 41 unit tests
+└── requirements.txt                           # Dependencies
+```

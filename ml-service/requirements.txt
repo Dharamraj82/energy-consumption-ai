@@ -1,2 +1,11 @@
 pandas
 jupyter
+numpy
+matplotlib
+seaborn
+scikit-learn
+joblib
+ucimlrepo
+fastapi>=0.115,<0.120
+uvicorn
+httpx

@@ -1,0 +1,4 @@
+model_name,validation_mae,validation_rmse,validation_r2,validation_mape,test_mae,test_rmse,test_r2,test_mape,is_selected,validation_rank,notes
+random_forest,0.3747,0.5443,0.6297,39.59,0.3283,0.4734,0.5454,44.78,True,1,Selected model based on validation MAE
+linear_regression,0.4405,0.6096,0.5355,50.81,0.3598,0.5058,0.4811,50.08,False,2,Baseline comparator
+persistence,0.4555,0.6844,0.4147,44.13,0.3728,0.5752,0.3291,44.75,False,3,Baseline comparator

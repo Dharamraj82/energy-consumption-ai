@@ -3,3 +3,18 @@ __pycache__/
 .venv/
 venv/
 .ipynb_checkpoints/
+
+# Node / Frontend
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# Large datasets and models exceeding GitHub's 100MB limit
+ml-service/data/raw/household_power_consumption.txt
+ml-service/models/random_forest.joblib
+
+# OS & Editor artifacts
+.DS_Store
+Thumbs.db

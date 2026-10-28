@@ -1,0 +1,67 @@
+{
+  "model_type": "RandomForestRegressor_Tuned",
+  "framework": "scikit-learn",
+  "selection_criterion": "Lowest validation MAE",
+  "best_hyperparameters": {
+    "n_estimators": 250,
+    "max_depth": 10,
+    "min_samples_leaf": 2,
+    "max_features": 1.0,
+    "random_state": 42,
+    "n_jobs": -1
+  },
+  "original_parameters": {
+    "n_estimators": 250,
+    "max_depth": 20,
+    "min_samples_leaf": 2,
+    "random_state": 42,
+    "n_jobs": -1
+  },
+  "feature_columns": [
+    "lag_1",
+    "lag_2",
+    "lag_3",
+    "lag_24",
+    "rolling_mean_3h",
+    "rolling_mean_24h",
+    "hour",
+    "day_of_week"
+  ],
+  "target_column": "target",
+  "target_unit": "kW",
+  "split_counts": {
+    "train_samples": 24195,
+    "val_samples": 5185,
+    "test_samples": 5185
+  },
+  "validation_metrics": {
+    "original": {
+      "mae": 0.3747325334635852,
+      "rmse": 0.5443331133205827,
+      "r2": 0.6297006085313652,
+      "mape": 39.59433399284656
+    },
+    "tuned": {
+      "mae": 0.370279889786848,
+      "rmse": 0.5411378946996456,
+      "r2": 0.6340351413567151,
+      "mape": 38.878250380418876
+    }
+  },
+  "test_metrics": {
+    "original": {
+      "mae": 0.3283283400769489,
+      "rmse": 0.47343887401457285,
+      "r2": 0.5454097980539389,
+      "mape": 44.7760139237047
+    },
+    "tuned": {
+      "mae": 0.3238640982343432,
+      "rmse": 0.468150397850775,
+      "r2": 0.5555089357576607,
+      "mape": 44.18987330371529
+    }
+  },
+  "tuning_duration_seconds": 235.9,
+  "tuned_at": "2026-10-28T07:58:56.673527Z"
+}
