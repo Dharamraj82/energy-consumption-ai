@@ -8,9 +8,18 @@ A lightweight, reproducible machine learning pipeline that forecasts residential
 
 ---
 
-> ### ⚡ Active Machine Learning Service
-> The complete implementation, model training code, test suite, visual output charts, and research reports live inside **[`ml-service/`](./ml-service/README.md)**.  
-> 👉 **[Open ml-service/README.md for Full Implementation, Visual Charts & Benchmarks](./ml-service/README.md)**
+<!-- Animated highlight box for ml-service link -->
+<p align="center">
+  <a href="./ml-service/README.md">
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=22&pause=1000&color=00D2FF&center=true&vCenter=true&width=700&lines=⚡+Active+Machine+Learning+Service;Full+Pipeline+%7C+Visual+Charts+%7C+Benchmarks;👉+Open+ml-service%2FREADME.md" alt="Active ML Service" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="./ml-service/README.md">
+    <img src="https://img.shields.io/badge/📂_ML_Service-Open_Full_Implementation_%26_Visual_Results-00D2FF?style=for-the-badge&labelColor=0B132B&color=7B2FF7" alt="Open ml-service README" />
+  </a>
+</p>
 
 ---
 

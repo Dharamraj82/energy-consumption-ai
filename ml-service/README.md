@@ -2,7 +2,7 @@
   <img src="./reports/figures/banner.svg" alt="AI-Based Energy Consumption Prediction System" width="100%" />
 </p>
 
-# ML Service: AI-Based Energy Consumption Prediction System
+# ML Service — AI-Based Energy Consumption Prediction System
 
 A lightweight, reproducible machine learning pipeline that forecasts a household's electricity consumption for the **next 1 hour** (in kilowatts, kW) using 4 years of real smart-meter telemetry.
 
@@ -10,38 +10,182 @@ A lightweight, reproducible machine learning pipeline that forecasts a household
 
 ## 📌 At a Glance
 
-* **Goal:** Predict next hour's mean active power (`Global_active_power`, kW).
-* **Dataset:** UCI Individual Household Electric Power Consumption (2,075,259 minute-level rows aggregated to 34,589 hourly steps).
-* **Features:** 8 leak-free features derived strictly from past data (lags, rolling averages, calendar hour/day).
-* **Evaluation Split:** Strict chronological split — **70% Train** (24,195), **15% Validation** (5,185), **15% Held-Out Test** (5,185).
-* **Winning Model:** **Tuned Random Forest** (250 trees, max_depth=10) with **0.3239 kW Test MAE** (a **13.12% error reduction** over baseline) and **88% smaller file size** (23.8 MB vs 201.7 MB).
+* **Goal:** Predict next hour's mean active power (`Global_active_power`, kW)
+* **Dataset:** UCI Individual Household Electric Power Consumption — 2,075,259 minute-level rows → 34,589 hourly steps
+* **Features:** 8 leak-free features derived strictly from past data (lags, rolling averages, calendar hour/day)
+* **Split:** Strict chronological — **70% Train** (24,195) · **15% Validation** (5,185) · **15% Test** (5,185)
+* **Winner:** Tuned Random Forest (250 trees, max_depth=10) — **0.3239 kW MAE · 13.12% error reduction · 88% smaller model**
 
 ---
 
-## ⚡ Quick Start: Run Everything
+## 📊 Experimental Results
+
+| Model | Test MAE (kW) | Test RMSE (kW) | Test R² | Test MAPE (%) | Error Reduction | File Size |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Persistence Baseline** | 0.3728 | 0.5752 | 0.3291 | 44.75% | Baseline | *None* |
+| **Linear Regression** | 0.3598 | 0.5058 | 0.4811 | 50.08% | +3.49% | < 0.1 MB |
+| **Original Random Forest** | 0.3283 | 0.4734 | 0.5454 | 44.78% | +11.94% | 201.7 MB |
+| **Tuned Random Forest** | **0.3239** | **0.4682** | **0.5555** | **44.19%** | **+13.12%** | **23.8 MB (−88%)** |
+
+> **Key Finding:** Restricting tree depth (20 → 10) acts as regularization against load spikes — better accuracy *and* 88% smaller file, making it ideal for edge smart-meter devices.
+
+---
+
+## 🖼️ Visual Results & Diagrams
+
+<!-- ============================================================
+     FIGURE 1 — System Architecture
+     ============================================================ -->
+<p align="center">
+  <strong>① System Architecture — 7-Stage Training & Evaluation Pipeline</strong>
+</p>
+
+<p align="center">
+  <a href="./reports/figures/figure_3_1_system_architecture.svg">
+    <img src="./reports/figures/figure_3_1_system_architecture.svg"
+         alt="System Architecture — 7-stage offline training & evaluation pipeline"
+         width="100%" />
+  </a>
+</p>
+
+<p align="center"><em>Click image to open full-resolution SVG · 7-stage offline training &amp; evaluation pipeline</em></p>
+
+---
+
+<!-- ============================================================
+     FIGURE 2 — Workflow Diagram
+     ============================================================ -->
+<p align="center">
+  <strong>② End-to-End Workflow — 12-Step Data Processing Sequence</strong>
+</p>
+
+<p align="center">
+  <a href="./reports/figures/figure_3_2_workflow.svg">
+    <img src="./reports/figures/figure_3_2_workflow.svg"
+         alt="Workflow Diagram — 12-step end-to-end data processing"
+         width="100%" />
+  </a>
+</p>
+
+<p align="center"><em>Click image to open full-resolution SVG · 12-step end-to-end data processing workflow</em></p>
+
+---
+
+<!-- ============================================================
+     FIGURE 3 — Model MAE Benchmark
+     ============================================================ -->
+<p align="center">
+  <strong>③ Model MAE Benchmark — 4-Model Bar Comparison on Held-Out Test Data</strong>
+</p>
+
+<p align="center">
+  <a href="./reports/figures/model_mae_comparison_all_models.png">
+    <img src="./reports/figures/model_mae_comparison_all_models.png"
+         alt="Model MAE Comparison — 4-model bar chart"
+         width="85%" />
+  </a>
+</p>
+
+<p align="center"><em>Tuned RF achieves lowest MAE (0.3239 kW) across all 4 models on 5,185 held-out test hours</em></p>
+
+---
+
+<!-- ============================================================
+     FIGURE 4 — Actual vs Predicted
+     ============================================================ -->
+<p align="center">
+  <strong>④ Actual vs. Predicted — 168-Hour Tracking with 48-Hour Zoom</strong>
+</p>
+
+<p align="center">
+  <a href="./reports/figures/model_comparison_actual_vs_predicted.png">
+    <img src="./reports/figures/model_comparison_actual_vs_predicted.png"
+         alt="Actual vs Predicted — 168-hour time-series tracking"
+         width="95%" />
+  </a>
+</p>
+
+<p align="center"><em>Tuned RF (orange) closely follows real consumption (blue) with tighter band than baseline models</em></p>
+
+---
+
+<!-- ============================================================
+     FIGURE 5 — Hyperparameter Tuning
+     ============================================================ -->
+<p align="center">
+  <strong>⑤ Hyperparameter Tuning — Validation MAE & RMSE vs Tree Depth</strong>
+</p>
+
+<p align="center">
+  <a href="./reports/figures/model_tuning_comparison.png">
+    <img src="./reports/figures/model_tuning_comparison.png"
+         alt="Hyperparameter Tuning — MAE & RMSE drop with max_depth"
+         width="85%" />
+  </a>
+</p>
+
+<p align="center"><em>max_depth=10 minimises both validation MAE &amp; RMSE — regularization sweet spot</em></p>
+
+---
+
+<!-- ============================================================
+     FIGURE 6 — Feature Importance
+     ============================================================ -->
+<p align="center">
+  <strong>⑥ Feature Importance Ranking — MDI Gini Importance</strong>
+</p>
+
+<p align="center">
+  <a href="./reports/figures/feature_importance.png">
+    <img src="./reports/figures/feature_importance.png"
+         alt="Feature Importance — lag_1 dominance at ~61%"
+         width="85%" />
+  </a>
+</p>
+
+<p align="center"><em><code>lag_1</code> dominates at ~61%, followed by calendar <code>hour</code> and <code>lag_24</code> — confirms autocorrelation-driven forecasting</em></p>
+
+---
+
+<!-- ============================================================
+     FIGURE 7 — Residual Error Distribution
+     ============================================================ -->
+<p align="center">
+  <strong>⑦ Residual Error Distribution — Prediction Error Histogram & KDE</strong>
+</p>
+
+<p align="center">
+  <a href="./reports/figures/error_summary.png">
+    <img src="./reports/figures/error_summary.png"
+         alt="Error Summary — histogram and KDE centered at 0"
+         width="85%" />
+  </a>
+</p>
+
+<p align="center"><em>Error distribution is centred at 0 kW with low spread — no systematic bias detected</em></p>
+
+---
+
+## ⚡ Quick Start
 
 ### 1. Install Dependencies
 ```powershell
 pip install -r requirements.txt
 ```
 
-### 2. Run Automated Tests (41 Tests Passed)
+### 2. Run Automated Tests (41 Tests)
 ```powershell
 python -m unittest discover -s tests -v
 ```
-**Output:**
 ```text
 Ran 41 tests in 3.363s
-
 OK
 ```
 
 ### 3. Make an Instant Prediction via CLI
-Predict next-hour power consumption using past 8 features:
 ```powershell
 python -m src.ml.predict --lag-1 1.25 --lag-2 1.10 --lag-3 1.05 --lag-24 1.30 --rolling-3h 1.13 --rolling-24h 1.22 --hour 18 --day-of-week 2 --model-path models/random_forest_tuned.joblib
 ```
-**Output:**
 ```json
 === Prediction Result ===
 {
@@ -70,67 +214,6 @@ python scripts/train_model.py
 ```powershell
 python scripts/tune_model.py
 ```
-
----
-
-## 📊 Experimental Results
-
-Evaluated across the exact same 5,185 held-out test hours:
-
-| Model | Test MAE (kW) | Test RMSE (kW) | Test $R^2$ | Test MAPE (%) | Error Reduction vs. Baseline | Model File Size |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Persistence Baseline** | 0.3728 | 0.5752 | 0.3291 | 44.75% | Baseline Ref | *None* |
-| **Linear Regression** | 0.3598 | 0.5058 | 0.4811 | 50.08% | +3.49% | < 0.1 MB |
-| **Original Random Forest** | 0.3283 | 0.4734 | 0.5454 | 44.78% | +11.94% | 201.7 MB |
-| **Tuned Random Forest** | **0.3239** | **0.4682** | **0.5555** | **44.19%** | **+13.12%** | **23.8 MB (-88%)** |
-
-> **Key Finding:** Restricting tree depth from 20 to 10 acts as regularization against sudden household load spikes. It improved test accuracy while shrinking the model file from **201.7 MB to 23.8 MB**, making it ideal for real-world smart meter edge devices.
-
----
-
-## 🖼️ Visual Results & Diagrams Catalog
-
-Click on any image to view it in full resolution.
-
-### 1. System Architecture (Figure 3.1)
-*7-stage offline training & evaluation pipeline:*
-[![System Architecture](./reports/figures/figure_3_1_system_architecture.svg)](./reports/figures/figure_3_1_system_architecture.svg)
-
----
-
-### 2. End-to-End Workflow Diagram (Figure 3.2)
-*12-step data processing & model development sequence:*
-[![Workflow Diagram](./reports/figures/figure_3_2_workflow.svg)](./reports/figures/figure_3_2_workflow.svg)
-
----
-
-### 3. Model MAE Benchmark Comparison
-*4-model bar comparison on held-out test data:*
-[![Model MAE Comparison](./reports/figures/model_mae_comparison_all_models.png)](./reports/figures/model_mae_comparison_all_models.png)
-
----
-
-### 4. Actual vs. Predicted Tracking
-*168-hour (1 week) time-series tracking & 48h zoom:*
-[![Actual vs Predicted](./reports/figures/model_comparison_actual_vs_predicted.png)](./reports/figures/model_comparison_actual_vs_predicted.png)
-
----
-
-### 5. Hyperparameter Tuning Impact
-*Validation MAE & RMSE drop from depth pruning (max_depth=10):*
-[![Tuning Comparison](./reports/figures/model_tuning_comparison.png)](./reports/figures/model_tuning_comparison.png)
-
----
-
-### 6. Feature Importance Ranking
-*MDI Gini importance showing `lag_1` dominance (~61%), followed by calendar `hour` and `lag_24`:*
-[![Feature Importance](./reports/figures/feature_importance.png)](./reports/figures/feature_importance.png)
-
----
-
-### 7. Residual Error Distribution
-*Prediction error histogram and Kernel Density Estimation centered around 0 kW:*
-[![Error Summary](./reports/figures/error_summary.png)](./reports/figures/error_summary.png)
 
 ---
 
