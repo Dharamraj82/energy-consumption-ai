@@ -18,32 +18,6 @@ A lightweight, reproducible machine learning pipeline that forecasts a household
 
 ---
 
-## 🖼️ Visual Results & Diagrams Catalog
-
-Click any of the links below to view high-resolution visual outputs:
-
-| Diagram / Chart | Direct File Link | Preview Description |
-| :--- | :--- | :--- |
-| **System Architecture** | [figure_3_1_system_architecture.svg](./reports/figures/figure_3_1_system_architecture.svg) | 7-stage offline training & evaluation pipeline |
-| **Workflow Diagram** | [figure_3_2_workflow.svg](./reports/figures/figure_3_2_workflow.svg) | 12-step end-to-end data processing workflow |
-| **Model MAE Benchmark** | [model_mae_comparison_all_models.png](./reports/figures/model_mae_comparison_all_models.png) | 4-model bar comparison on held-out test data |
-| **Actual vs. Predicted Tracking** | [model_comparison_actual_vs_predicted.png](./reports/figures/model_comparison_actual_vs_predicted.png) | 168-hour (1 week) time-series tracking & 48h zoom |
-| **Hyperparameter Tuning** | [model_tuning_comparison.png](./reports/figures/model_tuning_comparison.png) | Validation MAE & RMSE drop from depth pruning |
-| **Feature Importance Ranking** | [feature_importance.png](./reports/figures/feature_importance.png) | MDI Gini importance showing `lag_1` dominance |
-| **Residual Error Distribution** | [error_summary.png](./reports/figures/error_summary.png) | Prediction error histogram and KDE centered at 0 |
-
----
-
-## 🏗️ System Architecture & Workflow
-
-### 1. System Architecture
-[![System Architecture](./reports/figures/figure_3_1_system_architecture.svg)](./reports/figures/figure_3_1_system_architecture.svg)
-
-### 2. End-to-End Development Workflow
-[![Workflow Diagram](./reports/figures/figure_3_2_workflow.svg)](./reports/figures/figure_3_2_workflow.svg)
-
----
-
 ## ⚡ Quick Start: Run Everything
 
 ### 1. Install Dependencies
@@ -114,23 +88,48 @@ Evaluated across the exact same 5,185 held-out test hours:
 
 ---
 
-## 📈 Visual Results & Output Charts
+## 🖼️ Visual Results & Diagrams Catalog
 
-### 1. Test MAE Comparison Across All Models
+Click on any image to view it in full resolution.
+
+### 1. System Architecture (Figure 3.1)
+*7-stage offline training & evaluation pipeline:*
+[![System Architecture](./reports/figures/figure_3_1_system_architecture.svg)](./reports/figures/figure_3_1_system_architecture.svg)
+
+---
+
+### 2. End-to-End Workflow Diagram (Figure 3.2)
+*12-step data processing & model development sequence:*
+[![Workflow Diagram](./reports/figures/figure_3_2_workflow.svg)](./reports/figures/figure_3_2_workflow.svg)
+
+---
+
+### 3. Model MAE Benchmark Comparison
+*4-model bar comparison on held-out test data:*
 [![Model MAE Comparison](./reports/figures/model_mae_comparison_all_models.png)](./reports/figures/model_mae_comparison_all_models.png)
 
-### 2. Actual vs. Predicted Trajectory (1-Week Tracking & 48h Zoom)
+---
+
+### 4. Actual vs. Predicted Tracking
+*168-hour (1 week) time-series tracking & 48h zoom:*
 [![Actual vs Predicted](./reports/figures/model_comparison_actual_vs_predicted.png)](./reports/figures/model_comparison_actual_vs_predicted.png)
 
-### 3. Hyperparameter Tuning (Validation Improvement)
+---
+
+### 5. Hyperparameter Tuning Impact
+*Validation MAE & RMSE drop from depth pruning (max_depth=10):*
 [![Tuning Comparison](./reports/figures/model_tuning_comparison.png)](./reports/figures/model_tuning_comparison.png)
 
-### 4. Feature Importance (What Influences Demand Most)
-`lag_1` (current power) is the strongest predictor (~61%), followed by calendar `hour` and `lag_24` (same hour yesterday).
+---
+
+### 6. Feature Importance Ranking
+*MDI Gini importance showing `lag_1` dominance (~61%), followed by calendar `hour` and `lag_24`:*
 [![Feature Importance](./reports/figures/feature_importance.png)](./reports/figures/feature_importance.png)
 
-### 5. Error & Residuals Distribution
-Errors are closely centered around zero with minimal bias:
+---
+
+### 7. Residual Error Distribution
+*Prediction error histogram and Kernel Density Estimation centered around 0 kW:*
 [![Error Summary](./reports/figures/error_summary.png)](./reports/figures/error_summary.png)
 
 ---
