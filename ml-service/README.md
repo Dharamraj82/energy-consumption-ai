@@ -18,17 +18,19 @@ A lightweight, reproducible machine learning pipeline that forecasts a household
 
 ---
 
-## 🖼️ Quick Image & Diagram Links
+## 🖼️ Visual Results & Diagrams Catalog
 
-Click any link to view the high-resolution vector or chart:
+Click any of the links below to view high-resolution visual outputs:
 
-* 🏛️ **[System Architecture (Figure 3.1)](./reports/figures/figure_3_1_system_architecture.svg)** — Clean 16:9 diagram of the 7-stage ML pipeline.
-* 🔄 **[Workflow Diagram (Figure 3.2)](./reports/figures/figure_3_2_workflow.svg)** — 12-step data processing and model tuning sequence.
-* 📊 **[Model MAE Comparison](./reports/figures/model_mae_comparison_all_models.png)** — Benchmark bar chart across all 4 models.
-* 📈 **[Actual vs. Predicted Tracking](./reports/figures/model_comparison_actual_vs_predicted.png)** — 1-week time-series tracking & 48h zoom.
-* 🎛️ **[Hyperparameter Tuning Impact](./reports/figures/model_tuning_comparison.png)** — Original vs. Tuned validation improvement.
-* 🌟 **[Feature Importance Ranking](./reports/figures/feature_importance.png)** — MDI Gini importance of all 8 features.
-* 📉 **[Error & Residual Distribution](./reports/figures/error_summary.png)** — Prediction error histogram and KDE.
+| Diagram / Chart | Direct File Link | Preview Description |
+| :--- | :--- | :--- |
+| **System Architecture** | [figure_3_1_system_architecture.svg](./reports/figures/figure_3_1_system_architecture.svg) | 7-stage offline training & evaluation pipeline |
+| **Workflow Diagram** | [figure_3_2_workflow.svg](./reports/figures/figure_3_2_workflow.svg) | 12-step end-to-end data processing workflow |
+| **Model MAE Benchmark** | [model_mae_comparison_all_models.png](./reports/figures/model_mae_comparison_all_models.png) | 4-model bar comparison on held-out test data |
+| **Actual vs. Predicted Tracking** | [model_comparison_actual_vs_predicted.png](./reports/figures/model_comparison_actual_vs_predicted.png) | 168-hour (1 week) time-series tracking & 48h zoom |
+| **Hyperparameter Tuning** | [model_tuning_comparison.png](./reports/figures/model_tuning_comparison.png) | Validation MAE & RMSE drop from depth pruning |
+| **Feature Importance Ranking** | [feature_importance.png](./reports/figures/feature_importance.png) | MDI Gini importance showing `lag_1` dominance |
+| **Residual Error Distribution** | [error_summary.png](./reports/figures/error_summary.png) | Prediction error histogram and KDE centered at 0 |
 
 ---
 
