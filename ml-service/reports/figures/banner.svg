@@ -1,52 +1,196 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 200" width="900" height="200">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 220" width="900" height="220">
   <defs>
+
+    <!-- ── Gradients ── -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#0B132B"/>
+      <stop offset="100%" stop-color="#1a1040"/>
+    </linearGradient>
+
+    <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#00D2FF"/>
+      <stop offset="50%"  stop-color="#7B2FF7"/>
+      <stop offset="100%" stop-color="#00D2FF"/>
+    </linearGradient>
+
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#00D2FF" stop-opacity="0"/>
+      <stop offset="30%"  stop-color="#00D2FF" stop-opacity="1"/>
+      <stop offset="70%"  stop-color="#7B2FF7" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#7B2FF7" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Glow filter for title text -->
+    <filter id="glow" x="-20%" y="-60%" width="140%" height="220%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Glow filter for border -->
+    <filter id="borderGlow" x="-5%" y="-40%" width="110%" height="180%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Typewriter clip: reveals text left→right -->
+    <clipPath id="typeClip">
+      <rect id="typeRect" x="0" y="0" width="0" height="220"/>
+    </clipPath>
+
     <style>
-      .title {
-        font-family: 'Segoe UI', Arial, sans-serif;
-        font-size: 36px;
-        font-weight: 700;
-        fill: #ffffff;
-        animation: fadeSlideIn 1.8s ease forwards;
+      /* ── Typewriter reveal ── */
+      #typeRect {
+        animation: typeReveal 3s 0.3s cubic-bezier(0.4,0,0.2,1) forwards;
+      }
+      @keyframes typeReveal {
+        0%   { width: 0; }
+        100% { width: 900px; }
+      }
+
+      /* ── Cursor blink (starts after typewriter) ── */
+      .cursor {
+        animation:
+          cursorAppear 0.1s 3.3s forwards,
+          cursorBlink 0.9s 3.3s step-end infinite;
         opacity: 0;
       }
-      @keyframes fadeSlideIn {
-        0%   { opacity: 0; transform: translateY(18px); }
-        100% { opacity: 1; transform: translateY(0px); }
+      @keyframes cursorAppear { to { opacity: 1; } }
+      @keyframes cursorBlink  {
+        0%, 100% { opacity: 1; }
+        50%      { opacity: 0; }
       }
-      .accent {
-        animation: growWidth 1.6s 0.6s ease forwards;
-        transform-origin: left center;
-        transform: scaleX(0);
+
+      /* ── Underline grow, then shimmer ── */
+      .underline {
+        animation:
+          lineGrow   1.8s 0.5s ease forwards,
+          lineShimmer 3s  2.5s ease-in-out infinite;
+        transform-origin: center center;
         opacity: 0;
       }
-      @keyframes growWidth {
-        0%   { transform: scaleX(0); opacity: 1; }
-        100% { transform: scaleX(1); opacity: 1; }
+      @keyframes lineGrow {
+        0%   { opacity: 0; transform: scaleX(0); }
+        100% { opacity: 1; transform: scaleX(1); }
+      }
+      @keyframes lineShimmer {
+        0%   { opacity: 1; }
+        45%  { opacity: 0.4; }
+        55%  { opacity: 0.4; }
+        100% { opacity: 1; }
+      }
+
+      /* ── Border pulse ── */
+      .border-line {
+        stroke-dasharray: 800;
+        stroke-dashoffset: 800;
+        animation: borderDraw 2s 0.1s ease forwards, borderPulse 3s 2.2s ease-in-out infinite;
+      }
+      @keyframes borderDraw {
+        to { stroke-dashoffset: 0; }
+      }
+      @keyframes borderPulse {
+        0%   { stroke-opacity: 0.7; }
+        50%  { stroke-opacity: 0.2; }
+        100% { stroke-opacity: 0.7; }
+      }
+
+      /* ── Corner dot pulse ── */
+      .corner-dot {
+        animation: dotPop 0.5s ease forwards, dotPulse 2.5s 0.6s ease-in-out infinite;
+        opacity: 0;
+        transform-origin: center center;
+      }
+      .c1 { animation-delay: 0.1s, 0.7s; }
+      .c2 { animation-delay: 0.2s, 0.8s; }
+      .c3 { animation-delay: 0.3s, 0.9s; }
+      .c4 { animation-delay: 0.4s, 1.0s; }
+      @keyframes dotPop   { to { opacity: 1; transform: scale(1); } }
+      @keyframes dotPulse {
+        0%   { opacity: 1;   transform: scale(1); }
+        50%  { opacity: 0.3; transform: scale(0.6); }
+        100% { opacity: 1;   transform: scale(1); }
+      }
+
+      /* ── Subtitle fade in ── */
+      .subtitle {
+        opacity: 0;
+        animation: subFade 1.2s 3.6s ease forwards;
+      }
+      @keyframes subFade {
+        to { opacity: 0.55; }
       }
     </style>
-    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%"   stop-color="#00D2FF"/>
-      <stop offset="100%" stop-color="#7B2FF7"/>
-    </linearGradient>
   </defs>
 
-  <!-- Background -->
-  <rect width="900" height="200" fill="#0B132B"/>
+  <!-- ══════════════════════════════════════════
+       Background
+       ══════════════════════════════════════════ -->
+  <rect width="900" height="220" fill="url(#bgGrad)" rx="6"/>
 
-  <!-- Animated title text -->
-  <text
-    x="450"
-    y="105"
-    text-anchor="middle"
-    class="title"
-  >AI-Based Energy Consumption Prediction System</text>
+  <!-- ══════════════════════════════════════════
+       Animated border (draw + pulse)
+       ══════════════════════════════════════════ -->
+  <rect class="border-line"
+        x="6" y="6" width="888" height="208" rx="6"
+        fill="none"
+        stroke="url(#borderGrad)"
+        stroke-width="1.8"
+        filter="url(#borderGlow)"/>
 
-  <!-- Accent underline -->
-  <rect
-    x="175" y="122"
-    width="550" height="3"
-    rx="2"
-    fill="url(#accentGrad)"
-    class="accent"
-  />
+  <!-- Corner accent dots -->
+  <circle class="corner-dot c1" cx="12"  cy="12"  r="3" fill="#00D2FF"/>
+  <circle class="corner-dot c2" cx="888" cy="12"  r="3" fill="#7B2FF7"/>
+  <circle class="corner-dot c3" cx="12"  cy="208" r="3" fill="#7B2FF7"/>
+  <circle class="corner-dot c4" cx="888" cy="208" r="3" fill="#00D2FF"/>
+
+  <!-- ══════════════════════════════════════════
+       Typewriter title (clipped reveal)
+       ══════════════════════════════════════════ -->
+  <g clip-path="url(#typeClip)">
+    <text
+      x="450" y="108"
+      text-anchor="middle"
+      font-family="'Segoe UI', Arial, sans-serif"
+      font-size="34"
+      font-weight="700"
+      fill="#ffffff"
+      filter="url(#glow)"
+    >AI-Based Energy Consumption Prediction System</text>
+  </g>
+
+  <!-- Blinking cursor after typewriter ends -->
+  <rect class="cursor"
+        x="752" y="80"
+        width="3" height="36"
+        rx="1"
+        fill="#00D2FF"/>
+
+  <!-- ══════════════════════════════════════════
+       Underline — grow + shimmer
+       ══════════════════════════════════════════ -->
+  <rect class="underline"
+        x="175" y="124"
+        width="550" height="3"
+        rx="2"
+        fill="url(#lineGrad)"/>
+
+  <!-- ══════════════════════════════════════════
+       Subtitle (fades in after typing completes)
+       ══════════════════════════════════════════ -->
+  <text class="subtitle"
+        x="450" y="155"
+        text-anchor="middle"
+        font-family="'Segoe UI', Arial, sans-serif"
+        font-size="13"
+        font-weight="400"
+        letter-spacing="2"
+        fill="#a0c4ff"
+  >NEXT-HOUR RESIDENTIAL ELECTRICITY DEMAND FORECASTING  ·  TUNED RANDOM FOREST</text>
+
 </svg>
